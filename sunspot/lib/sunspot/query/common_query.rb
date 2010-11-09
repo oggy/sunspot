@@ -4,6 +4,7 @@ module Sunspot
       def initialize(types)
         @scope = Scope.new
         @sort = SortComposite.new
+        @grouping = nil
         @components = [@scope, @sort]
         if types.length == 1
           @scope.add_positive_restriction(TypeField.instance, Restriction::EqualTo, types.first)
@@ -35,6 +36,10 @@ module Sunspot
         function
       end
 
+      def add_grouping(grouping)
+        @grouping = grouping
+      end
+
       def paginate(page, per_page)
         if @pagination
           @pagination.page = page
@@ -49,6 +54,7 @@ module Sunspot
         @components.each do |component|
           Sunspot::Util.deep_merge!(params, component.to_params)
         end
+        Sunspot::Util.deep_merge!(params, @grouping.to_params) if @grouping
         @parameter_adjustment.call(params) if @parameter_adjustment
         params[:q] ||= '*:*'
         params

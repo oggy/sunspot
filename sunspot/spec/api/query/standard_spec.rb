@@ -7,6 +7,7 @@ describe 'standard query', :type => :query do
   it_should_behave_like "query with dynamic field support"
   it_should_behave_like "facetable query"
   it_should_behave_like "fulltext query"
+  it_should_behave_like "grouping query"
   it_should_behave_like "query with highlighting support"
   it_should_behave_like "sortable query"
   it_should_behave_like "query with text field scoping"
